@@ -27,7 +27,7 @@ ultimo_num = 0
 
 turnoActual = 1
 
-posicionJugador1 = 1
+posicionJugador1 = 98
 posicionJugador2 = 1
 
 #Posicion del Jugador y su aspecto
@@ -104,16 +104,22 @@ serpientes_y_escaleras = {
 
 }
 
-
 def moverjugador():
     global num, posicionJugador1, posicionJugador2, turnoActual
+    jugador1Rebote = False
+    jugador2Rebote = False
 
     print('Turno del Jugador ',turnoActual,' Debe avanzar ', num,' vece/s')
 
     if turnoActual == 1:
         # Mover jugador 1 paso a paso
         for _ in range(num):
-            posicionJugador1 += 1
+            if posicionJugador1 == 100:
+                jugador1Rebote = True
+            if jugador1Rebote == True:
+                posicionJugador1 -= 1
+            else:
+                posicionJugador1 += 1
             actualizar_posicion_jugador1()
             pygame.time.delay(200)  # Retardo para movimiento suave
             pygame.display.update()
@@ -122,11 +128,17 @@ def moverjugador():
             posicionJugador1 = serpientes_y_escaleras[posicionJugador1]
             actualizar_posicion_jugador1()
             pygame.time.delay(500)  # Para dar efecto de sorpresa
+        jugador1Rebote = False
         turnoActual = 2
     else:
         # Mover jugador 2 paso a paso
         for _ in range(num):
-            posicionJugador2 += 1
+            if posicionJugador2 == 100:
+                jugador2Rebote = True
+            if jugador2Rebote == True:
+                posicionJugador2 -= 1
+            else:
+                posicionJugador2 += 1
             actualizar_posicion_jugador2()
             pygame.time.delay(200)  # Retardo para movimiento suave
             pygame.display.update()
@@ -135,6 +147,7 @@ def moverjugador():
             posicionJugador2 = serpientes_y_escaleras[posicionJugador2]
             actualizar_posicion_jugador2()
             pygame.time.delay(500)  # Para dar efecto de sorpresa
+        jugador2Rebote = False
         turnoActual = 1
 
 
@@ -157,7 +170,7 @@ def actualizar_posicion_jugador2():
 
 testStart = pygame.font.Font('BubblegumSans-Regular.ttf', 65)
 textoV = 'JUGANDO'
-
+######################################################################
 while True:
     #Eventos
     for event in pygame.event.get():
@@ -217,8 +230,6 @@ while True:
     pygame.draw.rect(screen, (56, 203, 221), (480, (48*0)+4, 370, 44)) #Azul
     pygame.draw.rect(screen, (237, 60, 78), (480, (48*1)+4, 370, 44)) #Rojo
     pygame.draw.rect(screen, (255,207,71), (480, (48*2)+3, 370, 47*6)) #Amarillo
-
-
     botonStart = pygame.draw.rect(screen, (56, 203, 221), (480, (48*8)+1, 370, 91)) #Azul
 
 
