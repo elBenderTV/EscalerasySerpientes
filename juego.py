@@ -29,6 +29,7 @@ turnoActual = 1
 
 posicionJugador1 = 1
 posicionJugador2 = 1
+victoria = False
 
 #Posicion del Jugador y su aspecto
 imagen1 = 1
@@ -51,8 +52,7 @@ x = [0,
 	1,2,3,4,5,6,7,8,9,10,
 	10,9,8,7,6,5,4,3,2,1,
 	1,2,3,4,5,6,7,8,9,10,
-	10,9,8,7,6,5,4,3,2,1,
-    1,1,1,1,1,1,1,1,1,1,1
+	10,9,8,7,6,5,4,3,2,1
 ]
 y = [0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 
  9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 
@@ -63,7 +63,6 @@ y = [0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,
  4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 
  3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 
  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 
- 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
  1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
 
@@ -177,7 +176,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
-        #Comprobamos si alguien ya ha ganado la partida
+        #Cambio de emoji de los personajes
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if antesJugador1_rect.collidepoint(event.pos):
                 if imagen1 == 1:
@@ -209,7 +208,8 @@ while True:
                 jugador2Victoria = pygame.image.load(f'victoria/{imagen2}.png')
             # Dados
             if dado.collidepoint(event.pos):
-                lanzar_dado()
+                if not victoria:
+                    lanzar_dado()
             
                 
 
@@ -269,6 +269,7 @@ while True:
     start = screen.blit(textoStart,(alto+22,390))
 
     if posicionJugador1 >= 100 or posicionJugador2 >= 100:
+        victoria = True
         textoV = 'Victoria de'
         victoriaX = alto+15+278
         victoriaY = 395
@@ -276,7 +277,8 @@ while True:
             screen.blit(jugador1Victoria,(victoriaX,victoriaY))
         else:
             screen.blit(jugador2Victoria,(victoriaX,victoriaY))
-            
+    else:
+        textoV = 'JUGANDO'
 
     #JUGADOR
     posicionX1 = m+(casilla*(x[posicionJugador1]-1))
