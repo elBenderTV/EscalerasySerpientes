@@ -3,6 +3,11 @@ import pygame, random, os, time
 pygame.init()
 os.system("cls")
 
+azul = (56, 203, 221)
+rojo = (237, 60, 78)
+amarillo = (255,207,71)
+verde = (178,203,33)
+colorMain = verde
 # Crear Ventana
 pygame.display.set_caption('Escaleras y Serpientes con emojis')
 ancho, alto = 854, 480 #Dimensiones de pantalla
@@ -220,19 +225,17 @@ while True:
             if num != ultimo_num:
                 break  # Sale del bucle si el número es diferente
         ultimo_num = num  # Actualiza el último número generado
-        pygame.time.delay(100)
+        pygame.time.delay(150)
 
 
     # Dibujar Fondo
     screen.fill('white')
     screen.blit(background_image,(0,0))
     #Menu
-    pygame.draw.rect(screen, (56, 203, 221), (480, (48*0)+4, 370, 44)) #Azul
-    pygame.draw.rect(screen, (237, 60, 78), (480, (48*1)+4, 370, 44)) #Rojo
-    pygame.draw.rect(screen, (255,207,71), (480, (48*2)+3, 370, 47*6)) #Amarillo
-    botonStart = pygame.draw.rect(screen, (56, 203, 221), (480, (48*8)+1, 370, 91)) #Azul
-
-
+    pygame.draw.rect(screen, azul, (480, (48*0)+4, 370, 44)) #Azul
+    pygame.draw.rect(screen, rojo, (480, (48*1)+4, 370, 44)) #Rojo
+    pygame.draw.rect(screen, amarillo, (480, (48*2)+3, 370, 47*6)) #Amarillo
+    
     # Jugador 1
     screen.blit(textoJugador1, (alto + 10, (casilla - 35) / 2 - 2))
 
@@ -256,29 +259,44 @@ while True:
     despuesJugador2_rect = despuesJugador2
 
     #Dado
-    dadoFondoBlanco = pygame.draw.rect(screen, (255,255,255), (480+120, (48*2)+45, 110, 110)) #Blanco
-    dadoFondoVerde = pygame.draw.rect(screen, (178,203,33), (480+125, (48*2)+50, 100, 100)) #Verde
 
-    texto_dado = dadoText.render(str(num), True, 'black')
+    colorTurno = verde
+    if turnoActual == 1:
+        colorTurno = azul
+    elif turnoActual == 2:
+        colorTurno = rojo
+    else:
+        colorTurno = verde
+    dadoFondoBlanco = pygame.draw.rect(screen, (255,255,255), (480+120, (48*2)+45, 110, 110)) #Blanco
+    dadoFondoVerde = pygame.draw.rect(screen, colorTurno, (480+125, (48*2)+50, 100, 100)) #Verde
+    texto_dado = dadoText.render(str(num), True, 'white')
     texto_rect = texto_dado.get_rect(center=(480 + 125 + 50, (48 * 2) + 50 + 50))
     screen.blit(texto_dado, texto_rect)
     dado = dadoFondoBlanco
 
+
+
     #Victoria
+    pygame.draw.rect(screen, colorMain, (480, (48*8)+1, 370, 91))#Turno y Victoria
     textoStart = testStart.render(textoV, True, 'white')
     start = screen.blit(textoStart,(alto+22,390))
-
+    victoriaX = alto+15+278
+    victoriaY = 395
     if posicionJugador1 >= 100 or posicionJugador2 >= 100:
         victoria = True
         textoV = 'Victoria de'
-        victoriaX = alto+15+278
-        victoriaY = 395
         if posicionJugador1 >= 100:
             screen.blit(jugador1Victoria,(victoriaX,victoriaY))
+            colorMain = azul
         else:
             screen.blit(jugador2Victoria,(victoriaX,victoriaY))
+            colorMain = rojo
     else:
-        textoV = 'JUGANDO'
+        textoV = 'Turno de'
+        if turnoActual == 1:
+            screen.blit(jugador1Victoria,(victoriaX-35,victoriaY))
+        else:
+            screen.blit(jugador2Victoria,(victoriaX-35,victoriaY))
 
     #JUGADOR
     posicionX1 = m+(casilla*(x[posicionJugador1]-1))
@@ -295,4 +313,4 @@ while True:
         screen.blit(jugador2,(posicionX2,posicionY2))
 
     pygame.display.update()
-    clock.tick(100)
+    clock.tick(60)
