@@ -32,8 +32,8 @@ ultimo_num = 0
 
 turnoActual = 1
 
-posicionJugador1 = 1
-posicionJugador2 = 1
+posicionJugador1 = 99
+posicionJugador2 = 99
 victoria = False
 
 #Posicion del Jugador y su aspecto
@@ -225,7 +225,7 @@ while True:
             if num != ultimo_num:
                 break  # Sale del bucle si el número es diferente
         ultimo_num = num  # Actualiza el último número generado
-        pygame.time.delay(150)
+        pygame.time.delay(200)
 
 
     # Dibujar Fondo
@@ -261,12 +261,14 @@ while True:
     #Dado
 
     colorTurno = verde
-    if turnoActual == 1:
+    if turnoActual == 1 and victoria == False:
         colorTurno = azul
-    elif turnoActual == 2:
+    elif turnoActual == 2 and victoria == False:
         colorTurno = rojo
-    else:
-        colorTurno = verde
+    elif turnoActual == 1 and victoria == True:
+        colorTurno = rojo
+    elif turnoActual == 2 and victoria == True:
+        colorTurno = azul
     dadoFondoBlanco = pygame.draw.rect(screen, (255,255,255), (480+120, (48*2)+45, 110, 110)) #Blanco
     dadoFondoVerde = pygame.draw.rect(screen, colorTurno, (480+125, (48*2)+50, 100, 100)) #Verde
     texto_dado = dadoText.render(str(num), True, 'white')
