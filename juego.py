@@ -32,8 +32,8 @@ ultimo_num = 0
 
 turnoActual = 1
 
-posicionJugador1 = 99
-posicionJugador2 = 99
+posicionJugador1 = 1
+posicionJugador2 = 1
 victoria = False
 
 #Posicion del Jugador y su aspecto
